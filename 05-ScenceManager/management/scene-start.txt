@@ -1,0 +1,52 @@
+#id file_path transparent_color_r g b
+[TEXTURES]
+0	textures\title.png	255	255	255
+
+#id left top right bottom texture_id
+[SPRITES]
+# SCENE
+10001	0	0	256	224	0
+10002	258	0	514	224	0
+10003	516	0	256	224	0
+10004	516	226	772	450	0
+
+# 3
+10011	194	363	236	404	0
+10012	240	363	282	404	0
+10013	287	363	329	404	0
+10014	333	363	375	404	0
+
+# Option PLAYER
+10021	588	370	700	394	0
+10022	30	307	142	331	0
+10023	155	307	267	331	0
+#id Id_sprites time_frame 
+
+[ANIMATIONS]
+#---SCENE---
+1001	10004	100
+#---3----
+1011	10011	100	10012	100	10013	100	10014	100
+#---option-player---
+1021	10021	100
+1022	10022	100
+1023	10023	100
+
+#id ani1 ani2
+[ANIMATION_SETS]
+#SCENCE
+0	1001
+#3
+1	1011
+#option
+2	1021	1022	1023
+
+#type	x	y	ani_set_id	extra_settings per object type
+#type 4=NUMBER 5=SCENE 6=OPTION_PLAYER
+[OBJECTS]
+#SCENE
+5	0	0	0
+#NUMBER 3
+4	112	96	1
+#OPTION
+6	72	144	2	
