@@ -191,14 +191,11 @@ void CMario::Render()
 	{
 		if (state == MARIO_STATE_FIGHT) {
 			if (nx > 0) ani = MARIO_ANI_FIGHT_RIGHT;
-			else ani = MARIO_ANI_FIGHT_LEFT;
+			else ani = MARIO_ANI_FIGHT_LEFT; //test git desktop
 		}
 		else if (state == MARIO_STATE_IDLE)
 		{
-			if (state == MARIO_STATE_FIGHT) {
-				if (nx > 0) ani = MARIO_ANI_FIGHT_RIGHT;
-				else ani = MARIO_ANI_FIGHT_LEFT;
-			}else  if (this->isJump == true && ny <= 0) {
+			 if (this->isJump == true && ny <= 0) {
 				if (nx > 0) ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
 				else ani = MARIO_ANI_FIGHT_JUMP_LEFT;
 			}
