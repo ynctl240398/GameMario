@@ -38,10 +38,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	}
 
-	if (state == MARIO_STATE_FIGHT && this->isFight == true) {
-		state = MARIO_STATE_IDLE;
-	}
-
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -193,13 +189,16 @@ void CMario::Render()
 			if (this->isFight == true) {
 				if (nx > 0) ani = MARIO_ANI_FIGHT_RIGHT;
 				else ani = MARIO_ANI_FIGHT_LEFT;
-			}else if (this->isJump == true && ny <= 0) {
-				if (nx > 0) ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
-				else ani = MARIO_ANI_FIGHT_JUMP_LEFT;
 			}
 			else {
-				if (nx > 0) ani = MARIO_ANI_FIGHT_IDLE_RIGHT;
-				else ani = MARIO_ANI_FIGHT_IDLE_LEFT;
+				if (this->isJump == true && ny <= 0) {
+					if (nx > 0) ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
+					else ani = MARIO_ANI_FIGHT_JUMP_LEFT;
+				}
+				else {
+					if (nx > 0) ani = MARIO_ANI_FIGHT_IDLE_RIGHT;
+					else ani = MARIO_ANI_FIGHT_IDLE_LEFT;
+				}
 			}
 		}
 		else if (state == MARIO_STATE_SIT)
@@ -248,9 +247,10 @@ void CMario::SetState(int state)
 		vy = MARIO_SIT_SPEED_Y;
 		ny = 1;
 		vx = 0;
-		this->isFight = false;
+		
 		break;
 	case MARIO_STATE_IDLE:
+		this->isFight = false;
 		vx = 0;
 		ny = 0;
 		break;
