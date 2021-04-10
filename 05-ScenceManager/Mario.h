@@ -79,7 +79,6 @@ class CMario : public CGameObject
 	float start_y;
 public:
 	boolean isJump;
-	boolean isBig;
 	boolean isFight;
 	
 	CMario(float x = 0.0f, float y = 0.0f);
@@ -87,6 +86,7 @@ public:
 	virtual void Render();
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
+	int GetLevel() { return this->level; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Reset();

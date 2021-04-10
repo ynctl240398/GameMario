@@ -351,7 +351,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		else
 			mario->SetState(MARIO_STATE_IDLE);
-		if (mario->isBig == true) {
+		if (mario->GetLevel() != MARIO_LEVEL_SMALL) {
 			if (game->IsKeyDown(DIK_S))
 				mario->SetState(MARIO_STATE_SIT);
 		}
