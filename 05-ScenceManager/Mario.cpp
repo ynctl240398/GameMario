@@ -16,7 +16,6 @@ CMario::CMario(float x, float y) : CGameObject()
 	SetState(MARIO_STATE_IDLE);
 	untouchable = 0;
 	isJump = false;
-	isFight = false;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -183,26 +182,23 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_WALKING_LEFT;
 	}else if (level == MARIO_LEVEL_FIGHT)
 	{
-	
+
 		if (state == MARIO_STATE_IDLE)
 		{
-			if (this->isFight == true) {
-				if (nx > 0) ani = MARIO_ANI_FIGHT_RIGHT;
-				else ani = MARIO_ANI_FIGHT_LEFT;
+			if (this->isJump == true && ny <= 0) {
+				if (nx > 0) ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
+				else ani = MARIO_ANI_FIGHT_JUMP_LEFT;
 			}
 			else {
-				if (this->isJump == true && ny <= 0) {
-					if (nx > 0) ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
-					else ani = MARIO_ANI_FIGHT_JUMP_LEFT;
-				}
-				else {
-					if (nx > 0) ani = MARIO_ANI_FIGHT_IDLE_RIGHT;
-					else ani = MARIO_ANI_FIGHT_IDLE_LEFT;
-				}
+				if (nx > 0) ani = MARIO_ANI_FIGHT_IDLE_RIGHT;
+				else ani = MARIO_ANI_FIGHT_IDLE_LEFT;
 			}
 		}
-		else if (state == MARIO_STATE_SIT)
-		{
+		else if (state == MARIO_STATE_FIGHT) {
+			if (nx >= 0) ani = MARIO_ANI_FIGHT_RIGHT;
+			else ani = MARIO_ANI_FIGHT_LEFT;
+		}
+		else if (state == MARIO_STATE_SIT) {
 			if (nx > 0) ani = MARIO_ANI_FIGHT_SIT_RIGHT;
 			else ani = MARIO_ANI_FIGHT_SIT_LEFT;
 		} 
@@ -250,7 +246,6 @@ void CMario::SetState(int state)
 		
 		break;
 	case MARIO_STATE_IDLE:
-		this->isFight = false;
 		vx = 0;
 		ny = 0;
 		break;
@@ -258,7 +253,7 @@ void CMario::SetState(int state)
 		vy = -MARIO_DIE_DEFLECT_SPEED;
 		break;
 	case MARIO_STATE_FIGHT:
-		this->isFight = true;
+		vx = 0;
 		break;
 	}
 }

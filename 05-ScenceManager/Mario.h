@@ -79,7 +79,6 @@ class CMario : public CGameObject
 	float start_y;
 public:
 	boolean isJump;
-	boolean isFight;
 	
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
