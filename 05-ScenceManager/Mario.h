@@ -67,7 +67,7 @@
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 
-
+#define TIME_ATTACK 700
 
 
 class CMario : public CGameObject
@@ -75,11 +75,14 @@ class CMario : public CGameObject
 	int level;
 	int untouchable;
 	DWORD untouchable_start;
+	DWORD attack_start;
 	float start_x;			// initial position of Mario at scene
 	float start_y;
-public:
 	boolean isJump;
-	
+	boolean isAttack;
+
+public:
+
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
@@ -87,6 +90,9 @@ public:
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return this->level; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	void StartAttack() { attack_start = GetTickCount(); }
+	boolean IsJump() { return this->isJump; }
+	boolean IsAttack() { return this->isAttack; }
 
 	void Reset();
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

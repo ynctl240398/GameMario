@@ -20,6 +20,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_y = y;
 	this->x = x;
 	this->y = y;
+	this->isAttack = false;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -51,6 +52,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+	}
+
+	if (GetTickCount() - this->attack_start > TIME_ATTACK) {
+		this->isAttack = false;
 	}
 
 	// No collision occured, proceed normally
@@ -180,12 +185,16 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_WALKING_RIGHT;
 		else if (state == MARIO_STATE_WALKING_LEFT)
 			ani = MARIO_ANI_BIG_WALKING_LEFT;
-	}else if (level == MARIO_LEVEL_FIGHT)
+	}
+	else if (level == MARIO_LEVEL_FIGHT)
 	{
-
 		if (state == MARIO_STATE_IDLE)
 		{
-			if (this->isJump == true && ny <= 0) {
+			if (this->isAttack) {
+				if (nx > 0) ani = MARIO_ANI_FIGHT_RIGHT;
+				else ani = MARIO_ANI_FIGHT_LEFT;
+			}
+			else if (this->isJump == true && ny <= 0) {
 				if (nx > 0) ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
 				else ani = MARIO_ANI_FIGHT_JUMP_LEFT;
 			}
@@ -195,23 +204,23 @@ void CMario::Render()
 			}
 		}
 		else if (state == MARIO_STATE_FIGHT) {
-			if (nx >= 0) ani = MARIO_ANI_FIGHT_RIGHT;
+			if (nx > 0) ani = MARIO_ANI_FIGHT_RIGHT;
 			else ani = MARIO_ANI_FIGHT_LEFT;
 		}
 		else if (state == MARIO_STATE_SIT) {
 			if (nx > 0) ani = MARIO_ANI_FIGHT_SIT_RIGHT;
 			else ani = MARIO_ANI_FIGHT_SIT_LEFT;
-		} 
+		}
 		else if (this->isJump == true && ny <= 0)
 		{
 			if (nx > 0) ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
 			else ani = MARIO_ANI_FIGHT_JUMP_LEFT;
 		}
 		else if (state == MARIO_STATE_WALKING_RIGHT) {
-			 ani = MARIO_ANI_FIGHT_WALKING_RIGHT;
+			ani = MARIO_ANI_FIGHT_WALKING_RIGHT;
 		}
 		else if (state == MARIO_STATE_WALKING_LEFT) {
-			 ani = MARIO_ANI_FIGHT_WALKING_LEFT;
+			ani = MARIO_ANI_FIGHT_WALKING_LEFT;
 		}
 	}
 
@@ -243,7 +252,6 @@ void CMario::SetState(int state)
 		vy = MARIO_SIT_SPEED_Y;
 		ny = 1;
 		vx = 0;
-		
 		break;
 	case MARIO_STATE_IDLE:
 		vx = 0;
@@ -254,6 +262,8 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FIGHT:
 		vx = 0;
+		this->isAttack = true;
+		this->StartAttack();
 		break;
 	}
 }
