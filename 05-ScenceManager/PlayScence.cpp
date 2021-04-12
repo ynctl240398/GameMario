@@ -322,7 +322,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		switch (KeyCode)
 		{
 		case DIK_W:
-			if (!mario->IsJump() || mario->GetState() != MARIO_STATE_SIT) {
+			if (!mario->IsJump() && mario->GetState() != MARIO_STATE_SIT) {
 				mario->SetState(MARIO_STATE_JUMP);
 			}
 			break;
@@ -330,14 +330,18 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->Reset();
 			break;
 		case DIK_K:
-			if (!mario->IsAttack()) {
+			if (!mario->IsAttack() && mario->GetLevel() == MARIO_LEVEL_FIGHT) {
 				mario->SetState(MARIO_STATE_FIGHT);
 			}
 			break;
-
+		case DIK_M:
+			mario->SetLevel(MARIO_LEVEL_FIGHT);
+			break;
+		case DIK_N:
+			mario->SetLevel(MARIO_LEVEL_BIG);
+			break;
 		}
 	}
-
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE *states)

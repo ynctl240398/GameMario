@@ -3,7 +3,7 @@
 
 #define MARIO_WALKING_SPEED		0.1f 
 
-#define MARIO_JUMP_SPEED_Y			0.45f
+#define MARIO_JUMP_SPEED_Y			0.5f
 #define MARIO_JUMP_DEFLECT_SPEED	0.5f
 #define MARIO_FIGHT_SPEED_X			1.0f
 #define MARIO_SIT_SPEED_Y			0.5f
@@ -50,9 +50,9 @@
 #define MARIO_ANI_FIGHT_LEFT				24
 
 
-#define	MARIO_LEVEL_SMALL	1
-#define	MARIO_LEVEL_BIG		2
-#define MARIO_LEVEL_FIGHT	3
+#define	MARIO_LEVEL_SMALL	1000
+#define	MARIO_LEVEL_BIG		2000
+#define MARIO_LEVEL_FIGHT	3000
 
 #define MARIO_SMALL_BBOX_WIDTH  15
 #define MARIO_SMALL_BBOX_HEIGHT 15
@@ -67,7 +67,7 @@
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 
-#define TIME_ATTACK 700
+#define TIME_ATTACK 200
 
 
 class CMario : public CGameObject
@@ -93,6 +93,8 @@ public:
 	void StartAttack() { attack_start = GetTickCount(); }
 	boolean IsJump() { return this->isJump; }
 	boolean IsAttack() { return this->isAttack; }
+
+	int GetAniByLevel(int state);
 
 	void Reset();
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
