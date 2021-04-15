@@ -3,7 +3,9 @@
 
 #define MARIO_WALKING_SPEED		0.1f 
 
-#define MARIO_JUMP_SPEED_Y			0.5f
+#define MARIO_JUMP_SPEED_LOW_Y		0.5f
+#define MARIO_JUMP_SPEED_HIGHT_Y	0.6f
+
 #define MARIO_JUMP_DEFLECT_SPEED	0.5f
 #define MARIO_FIGHT_SPEED_X			1.0f
 #define MARIO_SIT_SPEED_Y			0.5f
@@ -20,6 +22,7 @@
 #define MARIO_STATE_SIT             400
 #define MARIO_STATE_DIE				500
 #define MARIO_STATE_FIGHT			600
+#define MARIO_STATE_CHANGE			700
 
 #define MARIO_ANI_SMALL_IDLE_RIGHT			0
 #define MARIO_ANI_SMALL_IDLE_LEFT			1
@@ -28,26 +31,32 @@
 #define MARIO_ANI_SMALL_JUMP_RIGHT			4
 #define MARIO_ANI_SMALL_JUMP_LEFT			5
 #define MARIO_ANI_DIE						6
+#define MARIO_ANI_SMALL_CHANGE_RIGHT		7
+#define MARIO_ANI_SMALL_CHANGE_LEFT			8
 
-#define MARIO_ANI_BIG_IDLE_RIGHT			7
-#define MARIO_ANI_BIG_IDLE_LEFT				8
-#define MARIO_ANI_BIG_WALKING_RIGHT			9
-#define MARIO_ANI_BIG_WALKING_LEFT			10
-#define MARIO_ANI_BIG_JUMP_RIGHT			11
-#define MARIO_ANI_BIG_JUMP_LEFT				12
-#define MARIO_ANI_BIG_SIT_RIGHT				13
-#define MARIO_ANI_BIG_SIT_LEFT				14
+#define MARIO_ANI_BIG_IDLE_RIGHT			9
+#define MARIO_ANI_BIG_IDLE_LEFT				10
+#define MARIO_ANI_BIG_WALKING_RIGHT			11
+#define MARIO_ANI_BIG_WALKING_LEFT			12
+#define MARIO_ANI_BIG_JUMP_RIGHT			13
+#define MARIO_ANI_BIG_JUMP_LEFT				14
+#define MARIO_ANI_BIG_SIT_RIGHT				15
+#define MARIO_ANI_BIG_SIT_LEFT				16
+#define MARIO_ANI_BIG_CHANGE_RIGHT			17
+#define MARIO_ANI_BIG_CHANGE_LEFT			18
 
-#define MARIO_ANI_FIGHT_IDLE_RIGHT			15
-#define MARIO_ANI_FIGHT_IDLE_LEFT			16
-#define MARIO_ANI_FIGHT_WALKING_RIGHT		17
-#define MARIO_ANI_FIGHT_WALKING_LEFT		18
-#define MARIO_ANI_FIGHT_JUMP_RIGHT			19
-#define MARIO_ANI_FIGHT_JUMP_LEFT			20
-#define MARIO_ANI_FIGHT_SIT_RIGHT			21
-#define MARIO_ANI_FIGHT_SIT_LEFT			22
-#define MARIO_ANI_FIGHT_RIGHT				23
-#define MARIO_ANI_FIGHT_LEFT				24
+#define MARIO_ANI_FIGHT_IDLE_RIGHT			19
+#define MARIO_ANI_FIGHT_IDLE_LEFT			20
+#define MARIO_ANI_FIGHT_WALKING_RIGHT		21
+#define MARIO_ANI_FIGHT_WALKING_LEFT		22
+#define MARIO_ANI_FIGHT_JUMP_RIGHT			23
+#define MARIO_ANI_FIGHT_JUMP_LEFT			24
+#define MARIO_ANI_FIGHT_SIT_RIGHT			25
+#define MARIO_ANI_FIGHT_SIT_LEFT			26
+#define MARIO_ANI_FIGHT_RIGHT				27
+#define MARIO_ANI_FIGHT_LEFT				28
+#define MARIO_ANI_FIGHT_CHANGE_RIGHT		29
+#define MARIO_ANI_FIGHT_CHANGE_LEFT			30
 
 
 #define	MARIO_LEVEL_SMALL	1000
@@ -68,6 +77,7 @@
 #define MARIO_UNTOUCHABLE_TIME 5000
 
 #define TIME_ATTACK 200
+#define TIME_JUMP 0.001f
 
 
 class CMario : public CGameObject
@@ -80,6 +90,7 @@ class CMario : public CGameObject
 	float start_y;
 	boolean isJump;
 	boolean isAttack;
+	float time_Jump;
 
 public:
 
@@ -91,6 +102,8 @@ public:
 	int GetLevel() { return this->level; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void StartAttack() { attack_start = GetTickCount(); }
+	int GetTimeJump() { return this->time_Jump; }
+	void SetTimeJump(float time_jump) { this->time_Jump = time_Jump; }
 	boolean IsJump() { return this->isJump; }
 	boolean IsAttack() { return this->isAttack; }
 

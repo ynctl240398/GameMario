@@ -34,7 +34,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (dy == 0)
 	{
-		isJump = false;
+		this->isJump = false;
 
 	}
 
@@ -54,10 +54,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 
+	
+
 	if (GetTickCount() - this->attack_start > TIME_ATTACK) {
 		this->isAttack = false;
 	}
-	else if(!this->isJump) this->dx = 0;
+
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -161,7 +163,11 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_JUMP:
 		this->isJump = true;
-		this->vy = -MARIO_JUMP_SPEED_Y;
+		
+		if ((GetTickCount() - this->GetTimeJump()) < TIME_JUMP) {
+			this->vy = -MARIO_JUMP_SPEED_LOW_Y;
+		}
+		else this->vy = -MARIO_JUMP_SPEED_HIGHT_Y;
 		this->ny = -1;
 		break;
 	case MARIO_STATE_SIT:
@@ -176,9 +182,10 @@ void CMario::SetState(int state)
 		this->vy = -MARIO_DIE_DEFLECT_SPEED;
 		break;
 	case MARIO_STATE_FIGHT:
-		this->vx = 0;
 		this->isAttack = true;
 		this->StartAttack();
+		break;
+	case MARIO_STATE_CHANGE:
 		break;
 	}
 }
@@ -300,16 +307,10 @@ int CMario::GetAniByLevel(int state)
 	}
 	else if (state == MARIO_STATE_FIGHT) {
 		if (this->nx > 0) {
-			if (this->isJump) {
-				ani = MARIO_ANI_FIGHT_JUMP_RIGHT;
-			}
-			else ani = MARIO_ANI_FIGHT_RIGHT;
+			ani = MARIO_ANI_FIGHT_RIGHT;
 		}
 		else {
-			if (this->isJump) {
-				ani = MARIO_ANI_FIGHT_JUMP_LEFT;
-			}
-			else ani = MARIO_ANI_FIGHT_LEFT;
+			ani = MARIO_ANI_FIGHT_LEFT;
 		}
 	}
 

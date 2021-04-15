@@ -323,14 +323,16 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 		case DIK_W:
 			if (!mario->IsJump() && mario->GetState() != MARIO_STATE_SIT) {
+				mario->SetTimeJump(GetTickCount());
 				mario->SetState(MARIO_STATE_JUMP);
+				
 			}
 			break;
 		case DIK_C:
 			mario->Reset();
 			break;
 		case DIK_K:
-			if (!mario->IsAttack() && mario->GetLevel() == MARIO_LEVEL_FIGHT) {
+			if (!mario->IsAttack() && mario->GetLevel() == MARIO_LEVEL_FIGHT && mario->GetState() != MARIO_STATE_SIT) {
 				mario->SetState(MARIO_STATE_FIGHT);
 			}
 			break;
@@ -343,6 +345,16 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 	}
 }
+void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+
+	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
+
+	mario->SetTimeJump(0);
+}
+
+
 
 void CPlayScenceKeyHandler::KeyState(BYTE *states)
 {
