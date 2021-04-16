@@ -66,18 +66,23 @@
 #define MARIO_SMALL_BBOX_WIDTH  15
 #define MARIO_SMALL_BBOX_HEIGHT 15
 
-#define MARIO_BIG_BBOX_SIT_WIDTH	14
-#define MARIO_BIG_BBOX_SIT_HEIGHT	18
+#define MARIO_BIG_BBOX_SIT_WIDTH_BIG	14
+#define MARIO_BIG_BBOX_SIT_HEIGHT_BIG	18
+#define MARIO_BIG_BBOX_WIDTH_BIG		16
+#define MARIO_BIG_BBOX_HEIGHT_BIG		27
 
-#define MARIO_BIG_BBOX_WIDTH  16
-#define MARIO_BIG_BBOX_HEIGHT 27
+#define MARIO_BIG_BBOX_SIT_WIDTH_FIGHT	21
+#define MARIO_BIG_BBOX_SIT_HEIGHT_FIGHT	19
+#define MARIO_BIG_BBOX_WIDTH_FIGHT		21
+#define MARIO_BIG_BBOX_HEIGHT_FIGHT		28
 
+#define GROUND				150
 
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 
 #define TIME_ATTACK 200
-#define TIME_JUMP 0.001f
+#define TIME_JUMP 100
 
 
 class CMario : public CGameObject
@@ -90,7 +95,7 @@ class CMario : public CGameObject
 	float start_y;
 	boolean isJump;
 	boolean isAttack;
-	float time_Jump;
+	boolean isKeyUp;
 
 public:
 
@@ -100,10 +105,10 @@ public:
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return this->level; }
+	void SetisKeyUp(boolean Key) { this->isKeyUp = Key; }
+	boolean GetisKeyUp() { return this->isKeyUp; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void StartAttack() { attack_start = GetTickCount(); }
-	int GetTimeJump() { return this->time_Jump; }
-	void SetTimeJump(float time_jump) { this->time_Jump = time_Jump; }
 	boolean IsJump() { return this->isJump; }
 	boolean IsAttack() { return this->isAttack; }
 

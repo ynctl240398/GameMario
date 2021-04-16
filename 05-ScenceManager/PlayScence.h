@@ -68,6 +68,7 @@ class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
 	boolean flag_scene = true;
 
+
 public:
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);

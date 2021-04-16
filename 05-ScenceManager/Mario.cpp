@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Mario.h"
 #include "Game.h"
-
+#include <iostream>
 #include "Goomba.h"
 #include "Portal.h"
 
@@ -21,6 +21,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	this->isAttack = false;
+	this->isKeyUp = true;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -35,6 +36,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (dy == 0)
 	{
 		this->isJump = false;
+		this->isKeyUp = true;
 
 	}
 
@@ -53,10 +55,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
 	
+	if ((!this->isKeyUp) && (this->isJump) && state == MARIO_STATE_JUMP) {
+		vy = -MARIO_JUMP_SPEED_HIGHT_Y;
+	}
 
 	if (GetTickCount() - this->attack_start > TIME_ATTACK) {
+		
 		this->isAttack = false;
 	}
 
@@ -163,11 +168,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_JUMP:
 		this->isJump = true;
-		
-		if ((GetTickCount() - this->GetTimeJump()) < TIME_JUMP) {
-			this->vy = -MARIO_JUMP_SPEED_LOW_Y;
-		}
-		else this->vy = -MARIO_JUMP_SPEED_HIGHT_Y;
+		this->vy = -MARIO_JUMP_SPEED_LOW_Y;
 		this->ny = -1;
 		break;
 	case MARIO_STATE_SIT:
@@ -192,26 +193,40 @@ void CMario::SetState(int state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	if (state != MARIO_STATE_DIE && (level == MARIO_LEVEL_BIG || level == MARIO_LEVEL_FIGHT))
+	if (state != MARIO_STATE_DIE )
 	{
-		if (y + MARIO_BIG_BBOX_WIDTH > 150)
-		{
-			y = 150 - MARIO_BIG_BBOX_HEIGHT - 1;
+		if (level == MARIO_LEVEL_BIG && (y + MARIO_BIG_BBOX_SIT_HEIGHT_BIG > GROUND)) {
+			y = GROUND - MARIO_BIG_BBOX_HEIGHT_BIG - 1;
+		}
+		else if (level == MARIO_LEVEL_FIGHT && (y + MARIO_BIG_BBOX_SIT_HEIGHT_FIGHT > GROUND)) {
+			y = GROUND - MARIO_BIG_BBOX_HEIGHT_FIGHT - 1;
 		}
 	}
 	top = y;
 	left = x;
 
-	if (level == MARIO_LEVEL_BIG || level == MARIO_LEVEL_FIGHT)
+	if (level == MARIO_LEVEL_BIG )
 	{
 		if (state == MARIO_STATE_SIT)
 		{
-			right = x + MARIO_BIG_BBOX_SIT_WIDTH;
-			bottom = y + MARIO_BIG_BBOX_SIT_HEIGHT;
+			right = x + MARIO_BIG_BBOX_SIT_WIDTH_BIG;
+			bottom = y + MARIO_BIG_BBOX_SIT_HEIGHT_BIG;
 		}
 		else {
-			right = x + MARIO_BIG_BBOX_WIDTH;
-			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+			right = x + MARIO_BIG_BBOX_WIDTH_BIG;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT_BIG;
+		}
+	}
+	else if (level == MARIO_LEVEL_FIGHT)
+	{
+		if (state == MARIO_STATE_SIT)
+		{
+			right = x + MARIO_BIG_BBOX_SIT_WIDTH_FIGHT;
+			bottom = y + MARIO_BIG_BBOX_SIT_HEIGHT_FIGHT;
+		}
+		else {
+			right = x + MARIO_BIG_BBOX_WIDTH_FIGHT;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT_FIGHT;
 		}
 	}
 	else {
