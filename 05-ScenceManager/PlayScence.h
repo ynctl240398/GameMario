@@ -73,6 +73,7 @@ class CPlayScenceKeyHandler : public CScenceKeyHandler
 	DWORD TimeJump;
 	DWORD StartJump;
 	boolean isUpKey;
+	int prevKey;
 
 public:
 	virtual void KeyState(BYTE *states);

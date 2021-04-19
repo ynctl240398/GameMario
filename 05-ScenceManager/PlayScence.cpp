@@ -342,6 +342,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetLevel(MARIO_LEVEL_BIG);
 			break;
 		}
+
 	}
 }
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -350,10 +351,14 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 
-	if (KeyCode == DIK_W) {
+	this->prevKey = KeyCode;
+	switch (KeyCode) {
+	case DIK_W:
 		if (!mario->GetIsJump() && mario->GetState() != MARIO_STATE_SIT) {
 			mario->SetState(MARIO_STATE_JUMP);
 		}
+		break;
+	
 	}
 }
 
@@ -369,16 +374,27 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	if (mario == NULL) return;
 	else {
 		if (mario->GetState() == MARIO_STATE_DIE) return;
-		if (game->IsKeyDown(DIK_D))
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
-		else if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
+		if (game->IsKeyDown(DIK_D)) {
+			if (prevKey == DIK_A) {
+				
+				mario->SetState(MARIO_STATE_CHANGE);
+				
+			}
+			else mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
+		else if (game->IsKeyDown(DIK_A)) {
+			if (prevKey == DIK_D) {
+		
+				mario->SetState(MARIO_STATE_CHANGE);
+			}
+			else mario->SetState(MARIO_STATE_WALKING_LEFT);
+		}
 		else  mario->SetState(MARIO_STATE_IDLE);
 
 		if ((game->IsKeyDown(DIK_W) && !mario->GetIsJump()))
 		{
 			this->TimeJump = GetTickCount() - StartJump;
-			if ((this->TimeJump > TIME) && (!game->IsKeyUp(DIK_W))) {
+			if ((this->TimeJump > TIME) ) {
 				mario->SetisKeyJumpState(true);
 				mario->SetState(MARIO_STATE_JUMP);
 			}

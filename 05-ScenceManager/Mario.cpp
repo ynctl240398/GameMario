@@ -191,6 +191,7 @@ void CMario::SetState(int state)
 		this->StartAttack();
 		break;
 	case MARIO_STATE_CHANGE:
+
 		break;
 	}
 }
