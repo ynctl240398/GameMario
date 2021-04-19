@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #define MARIO_WALKING_SPEED		0.1f 
+#define MARIO_WALKING_SPEED_JUMP_HIGHT	0.2f
 
 #define MARIO_JUMP_SPEED_LOW_Y		0.5f
 #define MARIO_JUMP_SPEED_HIGHT_Y	0.6f
@@ -82,7 +83,7 @@
 #define MARIO_UNTOUCHABLE_TIME 5000
 
 #define TIME_ATTACK 200
-#define TIME_JUMP 100
+
 
 
 class CMario : public CGameObject
@@ -95,7 +96,7 @@ class CMario : public CGameObject
 	float start_y;
 	boolean isJump;
 	boolean isAttack;
-	boolean isKeyUp;
+	boolean isKeyJumpState;
 
 public:
 
@@ -105,11 +106,11 @@ public:
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return this->level; }
-	void SetisKeyUp(boolean Key) { this->isKeyUp = Key; }
-	boolean GetisKeyUp() { return this->isKeyUp; }
+	void SetisKeyJumpState(boolean Key) { this->isKeyJumpState = Key; }
+	boolean GetisKeyJumpState() { return this->isKeyJumpState; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void StartAttack() { attack_start = GetTickCount(); }
-	boolean IsJump() { return this->isJump; }
+	boolean GetIsJump() { return this->isJump; }
 	boolean IsAttack() { return this->isAttack; }
 
 	int GetAniByLevel(int state);

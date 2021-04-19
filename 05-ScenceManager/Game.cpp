@@ -79,6 +79,11 @@ int CGame::IsKeyDown(int KeyCode)
 	return (keyStates[KeyCode] & 0x80) > 0;
 }
 
+int CGame::IsKeyUp(int KeyCode)
+{
+	return (keyStates[KeyCode] & 0x80) < 0;
+}
+
 void CGame::InitKeyboard()
 {
 	HRESULT
@@ -94,12 +99,8 @@ void CGame::InitKeyboard()
 		DebugOut(L"[ERROR] DirectInput8Create failed!\n");
 		return;
 	}
-
-	hr = di->CreateDevice(GUID_SysKeyboard, &didv, NULL);
-
-	// TO-DO: put in exception handling
-	try {
-		if (hr != DI_OK){}
+	try{
+		hr = di->CreateDevice(GUID_SysKeyboard, &didv, NULL);
 	}
 	catch (exception e) {
 		cout << "Ceate Device failed" << endl;
@@ -170,8 +171,8 @@ void CGame::ProcessKeyboard()
 			return;
 		}
 	}
+	
 
-	keyHandler->KeyState((BYTE *)&keyStates);
 
 
 
@@ -194,6 +195,8 @@ void CGame::ProcessKeyboard()
 		else
 			keyHandler->OnKeyUp(KeyCode);
 	}
+	keyHandler->KeyState((BYTE *)&keyStates);
+	
 }
 
 CGame::~CGame()

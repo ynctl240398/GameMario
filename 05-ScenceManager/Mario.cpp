@@ -21,7 +21,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	this->isAttack = false;
-	this->isKeyUp = true;
+	this->isKeyJumpState = false;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -32,14 +32,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
 
+	
 
 	if (dy == 0)
 	{
 		this->isJump = false;
-		this->isKeyUp = true;
-
+		this->isKeyJumpState = false ;
+		
 	}
 
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -55,17 +57,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	
-	if ((!this->isKeyUp) && (this->isJump) && state == MARIO_STATE_JUMP) {
-		vy = -MARIO_JUMP_SPEED_HIGHT_Y;
-	}
 
 	if (GetTickCount() - this->attack_start > TIME_ATTACK) {
 		
 		this->isAttack = false;
 	}
 
-
+	
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -159,16 +157,21 @@ void CMario::SetState(int state)
 	switch (state)
 	{
 	case MARIO_STATE_WALKING_RIGHT:
-		this->vx = MARIO_WALKING_SPEED;
+		if (GetisKeyJumpState())
+			this->vx = MARIO_WALKING_SPEED_JUMP_HIGHT;
+		else this->vx = MARIO_WALKING_SPEED;
 		this->nx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT:
-		this->vx = -MARIO_WALKING_SPEED;
+		if (GetisKeyJumpState())
+			this->vx = -MARIO_WALKING_SPEED_JUMP_HIGHT;
+		else this->vx = -MARIO_WALKING_SPEED;
 		this->nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
 		this->isJump = true;
-		this->vy = -MARIO_JUMP_SPEED_LOW_Y;
+		if(!GetisKeyJumpState()) this->vy = -MARIO_JUMP_SPEED_LOW_Y;
+		else this->vy = -MARIO_JUMP_SPEED_HIGHT_Y;
 		this->ny = -1;
 		break;
 	case MARIO_STATE_SIT:
@@ -176,7 +179,8 @@ void CMario::SetState(int state)
 		this->vx = 0;
 		break;
 	case MARIO_STATE_IDLE:
-		this->vx = 0;
+		if(!this->isJump)
+			this->vx = 0;
 		this->ny = 0;
 		break;
 	case MARIO_STATE_DIE:
@@ -326,6 +330,22 @@ int CMario::GetAniByLevel(int state)
 		}
 		else {
 			ani = MARIO_ANI_FIGHT_LEFT;
+		}
+	}
+	else if (state == MARIO_STATE_CHANGE) {
+		if (this->nx > 0) {
+			if (this->level == MARIO_LEVEL_FIGHT)
+				ani = MARIO_ANI_FIGHT_CHANGE_RIGHT;
+			else if (this->level == MARIO_LEVEL_BIG)
+				ani = MARIO_ANI_BIG_CHANGE_RIGHT;
+			else ani = MARIO_ANI_SMALL_CHANGE_RIGHT;
+		}
+		else {
+			if (this->level == MARIO_LEVEL_FIGHT)
+				ani = MARIO_ANI_FIGHT_CHANGE_LEFT;
+			else if (this->level == MARIO_LEVEL_BIG)
+				ani = MARIO_ANI_BIG_CHANGE_LEFT;
+			else ani = MARIO_ANI_SMALL_CHANGE_LEFT;
 		}
 	}
 

@@ -34,6 +34,7 @@
 #define MAX_SCENE_LINE 1024
 
 
+
 class CPlayScene: public CScene
 {
 	
@@ -64,10 +65,14 @@ public:
 	//friend class CPlayScenceKeyHandler;
 };
 
+#define TIME 250
+
 class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
 	boolean flag_scene = true;
-
+	DWORD TimeJump;
+	DWORD StartJump;
+	boolean isUpKey;
 
 public:
 	virtual void KeyState(BYTE *states);
