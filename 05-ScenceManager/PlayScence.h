@@ -65,13 +65,15 @@ public:
 	//friend class CPlayScenceKeyHandler;
 };
 
-#define TIME 250
+#define TIME_JUMP 250
+#define TIME_CHANGE 300
 
 class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
 	boolean flag_scene = true;
 	DWORD TimeJump;
 	DWORD StartJump;
+	DWORD StartChange;
 	boolean isUpKey;
 	int prevKey;
 

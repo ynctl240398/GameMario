@@ -157,15 +157,11 @@ void CMario::SetState(int state)
 	switch (state)
 	{
 	case MARIO_STATE_WALKING_RIGHT:
-		if (GetisKeyJumpState())
-			this->vx = MARIO_WALKING_SPEED_JUMP_HIGHT;
-		else this->vx = MARIO_WALKING_SPEED;
+		 this->vx = MARIO_WALKING_SPEED;
 		this->nx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT:
-		if (GetisKeyJumpState())
-			this->vx = -MARIO_WALKING_SPEED_JUMP_HIGHT;
-		else this->vx = -MARIO_WALKING_SPEED;
+		 this->vx = -MARIO_WALKING_SPEED;
 		this->nx = -1;
 		break;
 	case MARIO_STATE_JUMP:

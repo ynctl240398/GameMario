@@ -2,17 +2,17 @@
 #include "GameObject.h"
 
 #define MARIO_WALKING_SPEED		0.1f 
-#define MARIO_WALKING_SPEED_JUMP_HIGHT	0.2f
 
-#define MARIO_JUMP_SPEED_LOW_Y		0.5f
-#define MARIO_JUMP_SPEED_HIGHT_Y	0.6f
+
+#define MARIO_JUMP_SPEED_LOW_Y		0.3f
+#define MARIO_JUMP_SPEED_HIGHT_Y	0.4f
 
 #define MARIO_JUMP_DEFLECT_SPEED	0.5f
 #define MARIO_FIGHT_SPEED_X			1.0f
 #define MARIO_SIT_SPEED_Y			0.5f
 
 
-#define MARIO_GRAVITY				0.002f
+#define MARIO_GRAVITY				0.001f
 #define MARIO_DIE_DEFLECT_SPEED		0.5f
 
 
